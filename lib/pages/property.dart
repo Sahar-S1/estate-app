@@ -1,3 +1,4 @@
+import 'package:estate/models/property.dart';
 import 'package:flutter/material.dart';
 
 class PropertyPage extends StatelessWidget {
@@ -5,9 +6,13 @@ class PropertyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final arguments = (ModalRoute.of(context)?.settings.arguments ??
+        <String, dynamic>{}) as Map;
+    final property = arguments['property'] as Property;
+
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Estate"),
+        title: Text("Estate - ${property.address}"),
       ),
       body: Container(),
     );
