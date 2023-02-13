@@ -1,4 +1,4 @@
-import 'package:estate/components/PropertyCard.dart';
+import 'package:estate/components/property_card.dart';
 import 'package:estate/data/properties.dart';
 import 'package:flutter/material.dart';
 
