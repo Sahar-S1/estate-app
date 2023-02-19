@@ -1,4 +1,5 @@
 import 'package:estate/models/property.dart';
+import 'package:estate/utils/directus.dart';
 import 'package:flutter/material.dart';
 
 class PropertyCard extends StatelessWidget {
@@ -19,60 +20,67 @@ class PropertyCard extends StatelessWidget {
         );
       },
       child: Card(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            Container(
-              height: 150,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    'https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg',
-                  ),
-                ),
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(8.0),
-                ),
-                color: Colors.redAccent,
-              ),
-            ),
-            Container(
-              padding: const EdgeInsets.all(8.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.vertical(
-                  bottom: Radius.circular(8.0),
-                ),
-                color: theme.colorScheme.onPrimaryContainer,
-                boxShadow: [],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Text(
-                    property.address,
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+        child: IntrinsicHeight(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Hero(
+                tag: property.id,
+                child: Container(
+                  width: 200,
+                  height: 150,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      fit: BoxFit.contain,
+                      image: NetworkImage(
+                        '${ENDPOINT}/assets/${property.thumbnail}',
+                      ),
                     ),
+                    borderRadius: BorderRadius.horizontal(
+                      left: Radius.circular(8.0),
+                    ),
+                    color: theme.primaryColor,
                   ),
-                  Text(
-                    '₹${property.marketValue}',
-                    textAlign: TextAlign.center,
-                    style: theme.textTheme.labelMedium,
-                  ),
-                  Text(
-                    'Carpet Area - ${property.carpetArea} m^2',
-                    style: theme.textTheme.labelSmall,
-                  ),
-                  Text(
-                    '${property.noOfRooms} BHK',
-                    style: theme.textTheme.labelSmall,
-                  ),
-                ],
+                ),
               ),
-            )
-          ],
+              Container(
+                padding: const EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.vertical(
+                    bottom: Radius.circular(8.0),
+                  ),
+                  color: theme.colorScheme.onPrimaryContainer,
+                  boxShadow: [],
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      property.address_name,
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    Text(
+                      '₹${property.market_value}',
+                      textAlign: TextAlign.center,
+                      style: theme.textTheme.labelMedium,
+                    ),
+                    Text(
+                      'Carpet Area - ${property.carpet_area} m^2',
+                      style: theme.textTheme.labelSmall,
+                    ),
+                    Text(
+                      '${property.rooms} BHK',
+                      style: theme.textTheme.labelSmall,
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
         ),
       ),
     );

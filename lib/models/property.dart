@@ -2,60 +2,87 @@ import 'dart:convert';
 
 class Property {
   final int id;
-  final String address;
-  final double marketValue;
-  final double carpetArea;
-  final int noOfRooms;
+  final String address_number;
+  final String address_name;
+  final String address_street;
+  final String address_city;
+  final String address_state;
+  final int address_pincode;
+  final double market_value;
+  final double carpet_area;
+  final int rooms;
   final String type;
-  final String saleType;
+  final String sale_type;
   final List<String> facilities;
   final List<String> amenities;
-  final List<String> images;
-  final int brokerId;
+  final String thumbnail;
+
+  String get address {
+    return [
+      address_number,
+      address_name,
+      address_street,
+      address_city,
+      address_state,
+      address_pincode,
+    ].join(", ");
+  }
 
   Property({
     required this.id,
-    required this.address,
-    required this.marketValue,
-    required this.carpetArea,
-    required this.noOfRooms,
+    required this.address_number,
+    required this.address_name,
+    required this.address_street,
+    required this.address_city,
+    required this.address_state,
+    required this.address_pincode,
+    required this.market_value,
+    required this.carpet_area,
+    required this.rooms,
     required this.type,
-    required this.saleType,
+    required this.sale_type,
     required this.facilities,
     required this.amenities,
-    required this.images,
-    required this.brokerId,
+    required this.thumbnail,
   });
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'id': id,
-      'address': address,
-      'marketValue': marketValue,
-      'carpetArea': carpetArea,
-      'noOfRooms': noOfRooms,
+      'address_number': address_number,
+      'address_name': address_name,
+      'address_street': address_street,
+      'address_city': address_city,
+      'address_state': address_state,
+      'address_pincode': address_pincode,
+      'market_value': market_value,
+      'carpet_area': carpet_area,
+      'rooms': rooms,
       'type': type,
-      'saleType': saleType,
+      'sale_type': sale_type,
       'facilities': facilities,
       'amenities': amenities,
-      'images': images,
-      'brokerId': brokerId,
+      'thumbnail': thumbnail,
     };
   }
 
   factory Property.fromMap(Map<String, dynamic> map) {
     return Property(
       id: map['id'] as int,
-      address: map['address'] as String,
-      marketValue: map['marketValue'] as double,
-      carpetArea: map['carpetArea'] as double,
-      noOfRooms: map['noOfRooms'] as int,
+      address_number: map['address_number'] as String,
+      address_name: map['address_name'] as String,
+      address_street: map['address_street'] as String,
+      address_city: map['address_city'] as String,
+      address_state: map['address_state'] as String,
+      address_pincode: map['address_pincode'] as int,
+      market_value: map['market_value'] as double,
+      carpet_area: map['carpet_area'] as double,
+      rooms: map['rooms'] as int,
       type: map['type'] as String,
-      saleType: map['saleType'] as String,
-      facilities: List<String>.from((map['facilities'] as List<String>)),
-      amenities: List<String>.from((map['amenities'] as List<String>)),
-      images: List<String>.from((map['images'] as List<String>)),
-      brokerId: map['brokerId'] as int,
+      sale_type: map['sale_type'] as String,
+      facilities: List<String>.from((map['facilities'] as List<dynamic>)),
+      amenities: List<String>.from((map['amenities'] as List<dynamic>)),
+      thumbnail: map['thumbnail'] as String,
     );
   }
 
@@ -66,6 +93,6 @@ class Property {
 
   @override
   String toString() {
-    return 'Property(id: $id, address: $address, marketValue: $marketValue, carpetArea: $carpetArea, noOfRooms: $noOfRooms, type: $type, saleType: $saleType, facilities: $facilities, amenities: $amenities, images: $images, brokerId: $brokerId)';
+    return 'Property(id: $id, address_number: $address_number, address_name: $address_name, address_street: $address_street, address_city: $address_city, address_state: $address_state, address_pincode: $address_pincode, market_value: $market_value, carpet_area: $carpet_area, rooms: $rooms, type: $type, sale_type: $sale_type, facilities: $facilities, amenities: $amenities, thumbnail: $thumbnail)';
   }
 }
