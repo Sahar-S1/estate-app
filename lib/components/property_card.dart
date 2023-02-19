@@ -27,8 +27,8 @@ class PropertyCard extends StatelessWidget {
               Hero(
                 tag: property.id,
                 child: Container(
-                  width: 200,
-                  height: 150,
+                  width: 150,
+                  height: 100,
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       fit: BoxFit.contain,
