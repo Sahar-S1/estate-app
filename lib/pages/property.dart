@@ -17,34 +17,6 @@ class PropertyPage extends StatelessWidget {
     var theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
 
-    TableRow getTableRow(String heading, String value) {
-      return TableRow(
-        children: [
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text(
-                heading,
-                style: theme.textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ),
-          ),
-          TableCell(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(vertical: 16.0),
-              child: Text(
-                value,
-                style: theme.textTheme.titleLarge,
-                textAlign: TextAlign.end,
-              ),
-            ),
-          ),
-        ],
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text("Estate - ${property.address_name}"),
@@ -100,20 +72,7 @@ class PropertyPage extends StatelessWidget {
                 children: [
                   Container(
                     padding: const EdgeInsets.all(8.0),
-                    child: Table(
-                      columnWidths: const <int, TableColumnWidth>{
-                        0: FlexColumnWidth(1),
-                        1: FlexColumnWidth(2),
-                      },
-                      children: [
-                        getTableRow("Address", property.address),
-                        getTableRow(
-                            "Market Value", "₹${property.market_value}"),
-                        getTableRow(
-                            "Carpet Area", "${property.carpet_area} m^2"),
-                        getTableRow("Rooms", "${property.rooms} BHK"),
-                      ],
-                    ),
+                    child: getPropertyTable(theme, property),
                   ),
                 ],
               ),
@@ -121,6 +80,49 @@ class PropertyPage extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Table getPropertyTable(ThemeData theme, Property property) {
+    TableRow getTableRow(String heading, String value) {
+      return TableRow(
+        children: [
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                heading,
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ),
+          TableCell(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16.0),
+              child: Text(
+                value,
+                style: theme.textTheme.titleLarge,
+                textAlign: TextAlign.end,
+              ),
+            ),
+          ),
+        ],
+      );
+    }
+
+    return Table(
+      columnWidths: const <int, TableColumnWidth>{
+        0: FlexColumnWidth(1),
+        1: FlexColumnWidth(2),
+      },
+      children: [
+        getTableRow("Address", property.address),
+        getTableRow("Market Value", "₹${property.market_value}"),
+        getTableRow("Carpet Area", "${property.carpet_area} m^2"),
+        getTableRow("Rooms", "${property.rooms} BHK"),
+      ],
     );
   }
 }
