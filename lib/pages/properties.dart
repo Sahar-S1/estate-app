@@ -8,8 +8,11 @@ class PropertiesPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      extendBodyBehindAppBar: true,
       appBar: AppBar(
-        title: const Text("Estate - Properties"),
+        foregroundColor: Colors.black,
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: FutureBuilder(
         future: getProperties(),
@@ -34,8 +37,11 @@ class PropertiesPage extends StatelessWidget {
             itemBuilder: (ctx, idx) {
               var property = properties[idx];
               return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: PropertyCard(property: property),
+                padding: const EdgeInsets.all(0.0),
+                child: PropertyCard(
+                  property: property,
+                  right: idx % 2 != 0,
+                ),
               );
             },
           );
