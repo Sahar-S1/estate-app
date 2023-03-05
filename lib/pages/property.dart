@@ -6,14 +6,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 
 class PropertyPage extends StatelessWidget {
-  const PropertyPage({super.key});
+  final Property property;
+
+  const PropertyPage({super.key, required this.property});
 
   @override
   Widget build(BuildContext context) {
-    final arguments = (ModalRoute.of(context)?.settings.arguments ??
-        <String, dynamic>{}) as Map;
-    final property = arguments['property'] as Property;
-
     var theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
 

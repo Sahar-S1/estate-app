@@ -39,6 +39,8 @@ dependencies:
 
   # HTTP Client
   dio: ^5.0.0
+  # Router
+  go_router: ^6.2.0
 
 dev_dependencies:
   flutter_test:

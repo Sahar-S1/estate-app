@@ -1,6 +1,7 @@
 import 'package:estate/models/property.dart';
 import 'package:estate/utils/directus.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class PropertyCard extends StatelessWidget {
   final Property property;
@@ -17,12 +18,7 @@ class PropertyCard extends StatelessWidget {
     var theme = Theme.of(context);
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed(
-          '/properties/property',
-          arguments: {
-            'property': property,
-          },
-        );
+        context.push('/properties/property', extra: property);
       },
       child: Container(
         margin: EdgeInsets.all(8),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({super.key});
@@ -21,7 +22,7 @@ class AppDrawer extends StatelessWidget {
             title: Text("All Properties"),
             trailing: Icon(Icons.arrow_right_alt_rounded),
             onTap: () {
-              Navigator.of(context).pushNamed('/properties');
+              context.push('/properties');
             },
           ),
         ],

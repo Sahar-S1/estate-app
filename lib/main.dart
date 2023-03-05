@@ -1,10 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '/pages/home.dart';
-import '/pages/profile.dart';
-import '/pages/properties.dart';
-import '/pages/property.dart';
-import '/pages/search.dart';
+import 'package:estate/router.dart';
 
 void main() {
   runApp(const MyApp());
@@ -15,19 +10,13 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      routes: {
-        '/': (context) => const HomePage(),
-        '/profile': (context) => const ProfilePage(),
-        '/search': (context) => const SearchPage(),
-        '/properties': (context) => const PropertiesPage(),
-        '/properties/property': (context) => const PropertyPage(),
-      },
-      initialRoute: '/',
+      routeInformationParser: router.routeInformationParser,
+      routerDelegate: router.routerDelegate,
     );
   }
 }
