@@ -15,6 +15,8 @@ class PropertyPage extends StatelessWidget {
     var theme = Theme.of(context);
     Size size = MediaQuery.of(context).size;
 
+    var isFavorite = false;
+
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -197,6 +199,33 @@ class PropertyPage extends StatelessWidget {
                     ),
                   ),
                   const Divider(thickness: 2),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      ElevatedButton.icon(
+                        onPressed: () {},
+                        icon: Icon(Icons.phone),
+                        label: Text('Contact Broker'),
+                      ),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return IconButton(
+                            onPressed: () {
+                              setState(() {
+                                isFavorite = !isFavorite;
+                              });
+                            },
+                            icon: Icon(
+                              isFavorite
+                                  ? Icons.favorite
+                                  : Icons.favorite_border,
+                              color: Colors.red,
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
