@@ -107,9 +107,17 @@ class PropertyPage extends StatelessWidget {
                                 ),
                               ],
                             ),
+                            SizedBox(height: 10),
+                            Text(
+                              property.address,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
                           ],
                         ),
                       ),
+                      SizedBox(width: 80),
                       Text(
                         '₹ ${(property.market_value / 10000000).toStringAsFixed(2)} Cr',
                         style: TextStyle(
@@ -163,14 +171,22 @@ class PropertyPage extends StatelessWidget {
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: theme.primaryColor,
+                              color: Colors.grey.shade900,
                             ),
                             child: Column(
                               children: [
                                 Expanded(
-                                  child: Icon(items[index]["icon"] as IconData),
+                                  child: Icon(
+                                    items[index]["icon"] as IconData,
+                                    color: Colors.lightBlue.shade400,
+                                  ),
                                 ),
-                                Text(items[index]["value"] as String),
+                                Text(
+                                  items[index]["value"] as String,
+                                  style: TextStyle(
+                                    color: Colors.lightBlue.shade400,
+                                  ),
+                                ),
                               ],
                             ),
                           ),
@@ -181,7 +197,6 @@ class PropertyPage extends StatelessWidget {
                     ),
                   ),
                   const Divider(thickness: 2),
-                  getPropertyTable(theme, property),
                 ],
               ),
             ),
