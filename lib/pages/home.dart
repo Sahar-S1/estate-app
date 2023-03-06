@@ -1,5 +1,6 @@
 import 'package:estate/components/app_drawer.dart';
 import 'package:estate/components/image_carousel.dart';
+import 'package:estate/components/property_card.dart';
 import 'package:estate/utils/directus.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -24,7 +25,8 @@ class _HomePageState extends State<HomePage> {
         title: const Text("Estate"),
       ),
       drawer: AppDrawer(),
-      body: Container(
+      body: SingleChildScrollView(
+        physics: ScrollPhysics(),
         child: Column(
           children: [
             Container(
@@ -49,6 +51,49 @@ class _HomePageState extends State<HomePage> {
                   var sliderImages = snapshot.data!;
 
                   return ImageCarousel(sliderImages);
+                },
+              ),
+            ),
+            Divider(thickness: 2),
+            Container(
+              padding: EdgeInsets.symmetric(vertical: 20),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade200,
+              ),
+              child: FutureBuilder(
+                future: getProperties(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasError) {
+                    return Center(
+                      child: Text("ERROR - ${snapshot.error}"),
+                    );
+                  }
+
+                  if (snapshot.connectionState == ConnectionState.waiting ||
+                      snapshot.connectionState == ConnectionState.active) {
+                    return const Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+
+                  assert(snapshot.hasData);
+                  var properties = snapshot.data!;
+
+                  return ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: properties.length,
+                    itemBuilder: (ctx, idx) {
+                      var property = properties[idx];
+                      return Padding(
+                        padding: const EdgeInsets.all(0.0),
+                        child: PropertyCard(
+                          property: property,
+                          right: idx % 2 != 0,
+                        ),
+                      );
+                    },
+                  );
                 },
               ),
             ),
