@@ -1,8 +1,8 @@
 import 'package:estate/components/app_drawer.dart';
 import 'package:estate/components/image_carousel.dart';
-import 'package:estate/components/property_card.dart';
 import 'package:estate/utils/directus.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class HomePage extends StatefulWidget {
@@ -23,10 +23,13 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Estate"),
+        backgroundColor: Colors.transparent,
+        foregroundColor: Colors.black,
+        elevation: 0,
       ),
       drawer: AppDrawer(),
-      body: SingleChildScrollView(
-        physics: ScrollPhysics(),
+      body: Container(
+        color: Colors.grey.shade900,
         child: Column(
           children: [
             Container(
@@ -54,12 +57,52 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getButton(
+                  onPressed: () {},
+                  icon: Icons.article,
+                  label: 'Terms & Conditions',
+                  background: Colors.red.shade700,
+                ),
+                getButton(
+                  onPressed: () {
+                    context.push('/properties');
+                  },
+                  icon: Icons.house,
+                  label: 'Properties',
+                  background: Colors.green.shade700,
+                ),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                getButton(
+                  onPressed: () {},
+                  icon: Icons.search,
+                  label: 'Broker',
+                  background: Colors.blue.shade700,
+                ),
+                getButton(
+                  onPressed: () {
+                    setState(() {
+                      _selectedIndex = 3;
+                    });
+                  },
+                  icon: Icons.person,
+                  label: 'Profile',
+                  background: Colors.yellow.shade700,
+                ),
+              ],
+            ),
           ],
         ),
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: theme.canvasColor,
+          color: Colors.transparent,
           boxShadow: [
             BoxShadow(
               blurRadius: 20,
@@ -106,6 +149,45 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
+        ),
+      ),
+    );
+  }
+
+  Container getButton({
+    required void Function()? onPressed,
+    required IconData icon,
+    required String label,
+    Color? background,
+    Color? foreground,
+    Color? iconColor,
+  }) {
+    return Container(
+      margin: const EdgeInsets.all(15),
+      height: 120,
+      width: 120,
+      child: ElevatedButton(
+        onPressed: onPressed,
+        style: ElevatedButton.styleFrom(
+          backgroundColor: background,
+          foregroundColor: foreground,
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              size: 50,
+              color: iconColor,
+            ),
+            Text(
+              label,
+              style: TextStyle(
+                color: Colors.white,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );
