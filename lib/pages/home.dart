@@ -54,49 +54,6 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
             ),
-            Divider(thickness: 2),
-            Container(
-              padding: EdgeInsets.symmetric(vertical: 20),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-              ),
-              child: FutureBuilder(
-                future: getProperties(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text("ERROR - ${snapshot.error}"),
-                    );
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.connectionState == ConnectionState.active) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  assert(snapshot.hasData);
-                  var properties = snapshot.data!;
-
-                  return ListView.builder(
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: properties.length,
-                    itemBuilder: (ctx, idx) {
-                      var property = properties[idx];
-                      return Padding(
-                        padding: const EdgeInsets.all(0.0),
-                        child: PropertyCard(
-                          property: property,
-                          right: idx % 2 != 0,
-                        ),
-                      );
-                    },
-                  );
-                },
-              ),
-            ),
           ],
         ),
       ),
