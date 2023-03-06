@@ -19,3 +19,19 @@ Future<List<Property>> getProperties() async {
       .map((e) => Property.fromMap(e))
       .toList();
 }
+
+Future<List<String>> getSliderImages({String city = "Thane"}) async {
+  var res = await dio.get(
+    '/items/slider',
+    queryParameters: {
+      "filter": {
+        "city": {
+          "_eq": city,
+        }
+      }
+    },
+  );
+  return (res.data['data'] as List<dynamic>)
+      .map((e) => asset(e["image"] as String))
+      .toList();
+}
