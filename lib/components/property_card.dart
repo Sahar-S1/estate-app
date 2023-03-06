@@ -124,7 +124,7 @@ class PropertyCard extends StatelessWidget {
           ],
           image: DecorationImage(
             image: NetworkImage(
-              '${ENDPOINT}/assets/${property.thumbnail}',
+              asset(property.thumbnail),
             ),
             fit: BoxFit.cover,
           ),

@@ -32,8 +32,7 @@ class PropertyPage extends StatelessWidget {
                 height: size.height * 0.4,
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: NetworkImage(
-                        "${ENDPOINT}/assets/${property.thumbnail}"),
+                    image: NetworkImage(asset(property.thumbnail)),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -51,7 +50,7 @@ class PropertyPage extends StatelessWidget {
                 child: Hero(
                   tag: property.id,
                   child: Image.network(
-                    "${ENDPOINT}/assets/${property.thumbnail}",
+                    asset(property.thumbnail),
                     width: size.width * .8,
                     height: size.height * .3,
                     fit: BoxFit.fill,

@@ -9,6 +9,10 @@ final dio = Dio(
   ),
 );
 
+String asset(String assetId) {
+  return '$ENDPOINT/assets/$assetId';
+}
+
 Future<List<Property>> getProperties() async {
   var res = await dio.get('/items/property');
   return (res.data['data'] as List<dynamic>)
