@@ -1,5 +1,6 @@
 import 'package:estate/components/app_drawer.dart';
 import 'package:estate/components/image_carousel.dart';
+import 'package:estate/components/property_card.dart';
 import 'package:estate/utils/directus.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -20,6 +21,183 @@ class _HomePageState extends State<HomePage> {
     var theme = Theme.of(context);
     var size = MediaQuery.of(context).size;
 
+    Widget homeTab = Container(
+      color: Colors.grey.shade900,
+      child: Column(
+        children: [
+          Container(
+            height: size.height * .4,
+            child: FutureBuilder(
+              future: getSliderImages(),
+              builder: (context, snapshot) {
+                if (snapshot.hasError) {
+                  return Center(
+                    child: Text("ERROR - ${snapshot.error}"),
+                  );
+                }
+
+                if (snapshot.connectionState == ConnectionState.waiting ||
+                    snapshot.connectionState == ConnectionState.active) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+
+                assert(snapshot.hasData);
+                var sliderImages = snapshot.data!;
+
+                return ImageCarousel(sliderImages);
+              },
+            ),
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getButton(
+                onPressed: () {},
+                icon: Icons.article,
+                label: 'Terms & Conditions',
+                background: Colors.red.shade700,
+              ),
+              getButton(
+                onPressed: () {
+                  context.push('/properties');
+                },
+                icon: Icons.house,
+                label: 'Properties',
+                background: Colors.green.shade700,
+              ),
+            ],
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              getButton(
+                onPressed: () {},
+                icon: Icons.search,
+                label: 'Broker',
+                background: Colors.blue.shade700,
+              ),
+              getButton(
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
+                },
+                icon: Icons.person,
+                label: 'Profile',
+                background: Colors.yellow.shade700,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+
+    Widget favoritesTab = FutureBuilder(
+      future: getProperties(),
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return Center(
+            child: Text("ERROR - ${snapshot.error}"),
+          );
+        }
+
+        if (snapshot.connectionState == ConnectionState.waiting ||
+            snapshot.connectionState == ConnectionState.active) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+
+        assert(snapshot.hasData);
+        var properties = snapshot.data!;
+
+        return ListView.builder(
+          itemCount: properties.length,
+          itemBuilder: (ctx, idx) {
+            var property = properties[properties.length - 1 - idx];
+            return Padding(
+              padding: const EdgeInsets.all(0.0),
+              child: PropertyCard(
+                property: property,
+                right: idx % 2 != 0,
+              ),
+            );
+          },
+        );
+      },
+    );
+
+    Widget searchTab = SingleChildScrollView(
+      physics: ScrollPhysics(),
+      child: Column(
+        children: [
+          Container(
+            margin: const EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.all(Radius.circular(20)),
+              border: Border.all(),
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: TextField(
+                    decoration: InputDecoration.collapsed(
+                      hintText: 'Search',
+                      border: InputBorder.none,
+                    ),
+                  ),
+                ),
+                Icon(Icons.search),
+              ],
+            ),
+          ),
+          FutureBuilder(
+            future: getProperties(),
+            builder: (context, snapshot) {
+              if (snapshot.hasError) {
+                return Center(
+                  child: Text("ERROR - ${snapshot.error}"),
+                );
+              }
+
+              if (snapshot.connectionState == ConnectionState.waiting ||
+                  snapshot.connectionState == ConnectionState.active) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+
+              assert(snapshot.hasData);
+              var properties = snapshot.data!;
+
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: properties.length,
+                itemBuilder: (ctx, idx) {
+                  var property = properties[properties.length - 1 - idx];
+                  return Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: PropertyCard(
+                      property: property,
+                      right: idx % 2 != 0,
+                    ),
+                  );
+                },
+              );
+            },
+          ),
+        ],
+      ),
+    );
+
+    Widget profileTab = Center(
+      child: Icon(Icons.person, size: 50),
+    );
+
     return Scaffold(
       appBar: AppBar(
         title: const Text("Estate"),
@@ -28,78 +206,12 @@ class _HomePageState extends State<HomePage> {
         elevation: 0,
       ),
       drawer: AppDrawer(),
-      body: Container(
-        color: Colors.grey.shade900,
-        child: Column(
-          children: [
-            Container(
-              height: size.height * .4,
-              child: FutureBuilder(
-                future: getSliderImages(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasError) {
-                    return Center(
-                      child: Text("ERROR - ${snapshot.error}"),
-                    );
-                  }
-
-                  if (snapshot.connectionState == ConnectionState.waiting ||
-                      snapshot.connectionState == ConnectionState.active) {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-
-                  assert(snapshot.hasData);
-                  var sliderImages = snapshot.data!;
-
-                  return ImageCarousel(sliderImages);
-                },
-              ),
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getButton(
-                  onPressed: () {},
-                  icon: Icons.article,
-                  label: 'Terms & Conditions',
-                  background: Colors.red.shade700,
-                ),
-                getButton(
-                  onPressed: () {
-                    context.push('/properties');
-                  },
-                  icon: Icons.house,
-                  label: 'Properties',
-                  background: Colors.green.shade700,
-                ),
-              ],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                getButton(
-                  onPressed: () {},
-                  icon: Icons.search,
-                  label: 'Broker',
-                  background: Colors.blue.shade700,
-                ),
-                getButton(
-                  onPressed: () {
-                    setState(() {
-                      _selectedIndex = 3;
-                    });
-                  },
-                  icon: Icons.person,
-                  label: 'Profile',
-                  background: Colors.yellow.shade700,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
+      body: {
+        0: homeTab,
+        1: favoritesTab,
+        2: searchTab,
+        3: profileTab,
+      }[_selectedIndex],
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           color: Colors.transparent,
