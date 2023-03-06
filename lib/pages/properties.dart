@@ -34,15 +34,6 @@ class PropertiesPage extends StatelessWidget {
           assert(snapshot.hasData);
           var properties = snapshot.data!;
 
-          // TODO Remove This
-          // Repeat properties 10 times for testing
-          properties = List.generate(
-            properties.length * 50,
-            (index) => Property.fromMap(
-                properties[index % properties.length].toMap()
-                  ..update("id", (value) => index)),
-          );
-
           return ListView.builder(
             itemCount: properties.length,
             itemBuilder: (ctx, idx) {
